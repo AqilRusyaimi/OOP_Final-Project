@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reviews</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="photon.min.css" />
+    <style>
+      body{
+        background-image: url(sky.jpg);
+        font-family: "Gill Sans", sans-serif;
+      }
+      .topnav {
+      position: sticky;
+      overflow: hidden;
+      top: 0;
+      background-color: #333;
+      width: 100vw; /* Set the width to 100% */
+    }
+
+    
+    .topnav a {
+        float: right;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 28px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+    
+    .topnav a:hover {
+        background-color: #ffffff;
+        color: black;
+        cursor: pointer;
+    }
+      h1 {
+        color: orange;
+      }
+      .mainWrapper {
+        margin: 0px;
+        background-color: hsla(0, 0%, 87%, 0.514);
+        height: fit-content;
+        padding: 10px;
+        min-height: 854px;
+      }
+
+      .reviews-section {
+        margin-top: 20px;
+        margin-bottom: 50px;
+      }
+
+      .review-box {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 15px;
+        background-color: white;
+      }
+
+      .review-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      .review-content {
+        margin-bottom: 8px;
+      }
+
+      .review-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .btn-update,
+      .btn-delete,
+      .btn-submit {
+        background-color: #3498db;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .btn-update:hover,
+      .btn-delete:hover,
+      .btn-submit:hover {
+        background-color: #2980b9;
+      }
+
+      .review-form{
+        position: relative;
+      }
+
+      #reviewTitle, 
+      #reviewContent,
+      #updateTitle,
+      #updateContent{
+        border: 1px solid #2980b9;
+        border-radius: 8px;
+        padding-inline: 6px;
+        padding-block: 2px;
+      }
+        /* Add some styles for the modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    z-index: 1;
+    box-shadow: 10px 0px 30px rgb(181, 211, 228);
+
+  }
+
+  .modal input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .modal button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .modal button:hover {
+    background-color: #2980b9;
+  }
+    </style>
+  </head>
+  <body>
+    <div class="topnav">
+      <a href="review.html">Reviews</a>
+      <a href="weather.html">Place</a>
+      <a href="to-do.html">Things to do</a>
+      <a href="home.html">Home</a>
+    </div>
+    <div class="mainWrapper">
+
+      <div class="reviews-section">
+        <h2>All Reviews</h2>
+        <div id="reviewsList"></div>
+      </div>
+      <hr>
+      <div class="review-form">
+        <form>
+          <div class="form-group">
+            <label>Name</label>
+            <input id="reviewTitle" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Review</label>
+            <textarea id="reviewContent" class="form-control" rows="5"></textarea>
+          </div>
+        </form>
+
+        <button id="btnAddReview" class="btn-submit">Add Review</button>
+      </div>
+
+
+      
+    </div>
+
+    <div id="updateModal" class="modal">
+        <h2>Update Review</h2>
+        <label for="updateTitle">Updated Title:</label>
+        <input type="text" id="updateTitle" required>
+        <label for="updateContent">Updated Content:</label>
+        <textarea id="updateContent" rows="1" required></textarea>
+        <br>
+        <center><button id="btnSaveUpdate">Save Update</button></center>
+      </div>
+
+    <script>
+      const fs = require('fs');
+      const path = require('path');
+
+      const reviewTitleInput = document.getElementById('reviewTitle');
+      const reviewContentInput = document.getElementById('reviewContent');
+      const btnAddReview = document.getElementById('btnAddReview');
+      const reviewsList = document.getElementById('reviewsList');
+
+      const reviewsPath = path.join(__dirname, 'Reviews');
+
+      function displayReviews() {
+        fs.readdir(reviewsPath, (err, files) => {
+          if (err) {
+            return console.log(err);
+          }
+
+          // Display reviews in the list
+          reviewsList.innerHTML = '';
+          files.forEach((file) => {
+            if (file.endsWith('.txt')) {
+              const filePath = path.join(reviewsPath, file);
+              fs.readFile(filePath, 'utf-8', (readErr, data) => {
+                if (readErr) {
+                  return console.log(readErr);
+                }
+
+                const reviewBox = document.createElement('div');
+                reviewBox.className = 'review-box';
+
+                const title = data.match(/Title: (.*)/)[1];
+                const content = data.match(/Content: (.*)/)[1];
+
+                const reviewTitle = document.createElement('div');
+                reviewTitle.className = 'review-title';
+                reviewTitle.innerText = title;
+
+                const reviewContent = document.createElement('div');
+                reviewContent.className = 'review-content';
+                reviewContent.innerText = content;
+
+                const reviewButtons = document.createElement('div');
+                reviewButtons.className = 'review-buttons';
+
+                const btnUpdate = document.createElement('button');
+                btnUpdate.className = 'btn-update';
+                btnUpdate.innerText = 'Update';
+                btnUpdate.onclick = () => updateReview(file, title, content);
+
+                const btnDelete = document.createElement('button');
+                btnDelete.className = 'btn-delete';
+                btnDelete.innerText = 'Delete';
+                btnDelete.onclick = () => deleteReview(file);
+
+                reviewButtons.appendChild(btnUpdate);
+                reviewButtons.appendChild(btnDelete);
+
+                reviewBox.appendChild(reviewTitle);
+                reviewBox.appendChild(reviewContent);
+                reviewBox.appendChild(reviewButtons);
+
+                reviewsList.appendChild(reviewBox);
+              });
+            }
+          });
+        });
+      }
+
+      btnAddReview.addEventListener('click', function () {
+        const title = reviewTitleInput.value;
+        const content = reviewContentInput.value;
+
+        if (!title || !content) {
+          return alert('Please enter both title and content for the review.');
+        }
+
+        const fileName = `${title.replace(/ /g, '_')}.txt`;
+        const filePath = path.join(reviewsPath, fileName);
+
+        fs.writeFile(filePath, `Title: ${title}\nContent: ${content}`, 'utf-8', (err) => {
+          if (err) {
+            return console.log(err);
+          }
+          console.log('Review added successfully!');
+          displayReviews();
+        });
+
+        // Clear input fields
+        reviewTitleInput.value = '';
+        reviewContentInput.value = '';
+      });
+
+      function updateReview(fileName, currentTitle, currentContent) {
+    // Display the update modal
+    const modal = document.getElementById('updateModal');
+    const updateTitleInput = document.getElementById('updateTitle');
+    const updateContentInput = document.getElementById('updateContent');
+    const btnSaveUpdate = document.getElementById('btnSaveUpdate');
+
+    updateTitleInput.value = currentTitle;
+    updateContentInput.value = currentContent;
+
+    btnSaveUpdate.onclick = function () {
+      const newTitle = updateTitleInput.value;
+      const newContent = updateContentInput.value;
+
+      if (newTitle.trim() !== '' && newContent.trim() !== '') {
+        const filePath = path.join(reviewsPath, fileName);
+        const updatedReview = `Title: ${newTitle}\nContent: ${newContent}`;
+
+        fs.writeFile(filePath, updatedReview, 'utf-8', (err) => {
+          if (err) {
+            return console.log(err);
+          }
+          console.log('Review updated successfully!');
+          displayReviews();
+
+          // Close the modal after updating
+          modal.style.display = 'none';
+        });
+      } else {
+        alert('Please enter both title and content for the review.');
+      }
+    };
+
+    modal.style.display = 'block';
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+      function deleteReview(fileName) {
+        const filePath = path.join(reviewsPath, fileName);
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            return console.log(err);
+          }
+          console.log('Review deleted successfully!');
+          displayReviews();
+        });
+      }
+
+      // Initial display of reviews
+      displayReviews();
+    </script>
+  </body>
+</html>

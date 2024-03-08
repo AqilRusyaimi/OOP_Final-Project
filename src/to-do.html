@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thing to-do</title>
+</head>
+<style>
+    body {
+        font-family: "Gill Sans", sans-serif;
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        object-fit: cover;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity (0.5 for 50% darkness) */
+        z-index: -1;
+    }
+
+    .topnav {
+        position: sticky;
+        top: 0;
+        overflow: hidden;
+        background-color: #333;
+        z-index: 1;
+    }
+
+    .topnav a {
+        float: right;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 28px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+
+    .topnav a:hover {
+        background-color: #ffffff;
+        color: black;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: hsla(0, 0%, 96%, 0.25);
+        padding: 20px;
+        margin-top: 150px;
+        width: 50%;
+        margin-inline: auto;
+        border-top-right-radius: 50px;
+        border-top-left-radius: 50px;
+    }
+
+    .content-box {
+        background-color: hsla(0, 0%, 100%, 0.76);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        border-radius: 25px;
+        text-align: justify;
+    }
+</style>
+<body>
+
+    <!-- Video Background -->
+    <video class="video-background" autoplay muted loop>
+        <source src="skyvid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Navigation -->
+    <div class="topnav">
+        <a href="review.html">Reviews</a>
+        <a href="weather.html">Place</a>
+        <a href="to-do.html">Things to do</a>
+        <a href="home.html">Home</a>
+      </div>
+
+    <div class="container">
+        <div class="content-box">
+            <h2>Weather</h2>
+            <p>Skydiving is one of the most weather-dependent sports in the world.
+
+                Especially for beginners. If you’re a newbie pilot you’re not allowed to 
+                jump in anything above a mild wind – as it makes landing harder. As a tandem 
+                this is similar, but mostly because all that weight makes the canopy harder to fly.</p>
+        </div>
+        <div class="content-box">
+            <h2>Food</h2>
+            <p>It’s important to eat the right stuff when you’re jumping for the first time. 
+                Your stomach will be a little more ‘awake’ than usual when you’re leaping out 
+                of a plane!
+                <br><br>
+                As I said above, try to avoid big meals that could make you a little travel sick. 
+                While flying through the air is total freedom, being couped up in a little plane isn’t. 
+                Opt for a good healthy breakfast and snacks to keep you going.</p>
+        </div>
+        <div class="content-box">
+            <h2>Clothes</h2>
+            <p>Tandem skydiving doesn’t require you to purchase any fancy skydiving suit or special gear. 
+                Most drop zones will provide you with all of the safety equipment you need for a successful 
+                jump. Make sure you wear athletic clothing that’s comfortable and snug. Wear closed-toed 
+                shoes that don’t slip off and be sure to remove loose jewelry and accessories.</p>
+        </div>
+        <div class="content-box">
+            <h2>Packages</h2>
+            <p>Pricing is always important, but it’s important to look at what’s included with that price as 
+                well. Check for a good price that includes all gear and safety equipment. Also, look for good 
+                photo and video packages that aren’t at astronomical prices. Also, be sure to check for special 
+                skydiving deals that may only be available on certain sites.</p>
+        </div>
+        <div class="content-box">
+            <h2>What to bring</h2>
+            <p>When you’re packing up for your skydiving adventure make sure you’re only taking what’s absolutely 
+                necessary. Make sure you have a form of payment and a photo ID to prove your age. You can bring your 
+                phone to the dropzone, but you likely won’t be able to take it with you on the actual skydive. Many 
+                dropzones offer photo & video packages with equipment that they provide, so you won’t have to worry 
+                about bringing a camera or gopro to capture the experience.</p>
+        </div>
+    </div>
+</body>
+</html>
